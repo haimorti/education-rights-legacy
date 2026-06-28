@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --font-sans: "Rubik", "Heebo", Arial, Helvetica, sans-serif;
+    --background: 210 20% 98%;
+    --foreground: 220 20% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 14%;
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 220 20% 20%;
+    --muted: 210 14% 95%;
+    --muted-foreground: 220 10% 46%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 220 20% 14%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 14% 89%;
+    --input: 210 14% 89%;
+    --ring: 199 89% 48%;
+    --chart-1: 199 89% 48%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.75rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 199 89% 48%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 16% 93%;
+    --sidebar-accent-foreground: 220 20% 20%;
+    --sidebar-border: 210 14% 89%;
+    --sidebar-ring: 199 89% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

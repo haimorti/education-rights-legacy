@@ -1,0 +1,18 @@
+{
+  "name": "שיקום מקצועי לסטודנטים",
+  "short_name": "שיקום מקצועי",
+  "description": "המדריך שלך לזכויות שיקום מקצועי לסטודנטים עם מוגבלות",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/placeholder-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
