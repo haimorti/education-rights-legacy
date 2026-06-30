@@ -150,6 +150,10 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .checks{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:8px;}
 .checks li{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--fg);}
 .checks .icon{color:var(--primary);flex:0 0 auto;margin-top:1px;}
+/* single check-bullet row (icon + paragraph), faithful to the site's CheckCircle2 list items */
+.checkrow{display:flex;gap:10px;align-items:flex-start;margin:2px 0;}
+.checkrow .icon{color:var(--primary);flex:0 0 auto;margin-top:1px;}
+.checkrow p{font-size:13.5px;line-height:1.6;color:hsl(220 14% 25%);}
 
 .pill{background:hsl(199 89% 91%);color:var(--primary-d);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap;}
 /* numbered condition card */
@@ -287,7 +291,7 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 @media print{
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
-  .cond,.minicard,.callout,.scenario,.innerbox{
+  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow{
     break-inside:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
   .phase{break-inside:avoid; break-after:avoid;}

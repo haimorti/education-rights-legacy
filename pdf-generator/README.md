@@ -30,7 +30,8 @@ pdf-generator/
 ├── generate.py         # מחולל גנרי מ-Markdown (פולבק לעמודים שטרם נבנו ייעודית)
 ├── pages/
 │   ├── app01.py        # בנייה ייעודית — עמוד "הגשת בקשה" (תהליך)
-│   └── app02.py        # בנייה ייעודית — עמוד "דמי שיקום"
+│   ├── app02.py        # בנייה ייעודית — עמוד "דמי שיקום"
+│   └── app03.py        # בנייה ייעודית — עמוד "שכר לימוד" (תבנית עדכנית)
 ├── render.js           # HTML → PDF (דסקטופ A4 + מובייל ארוך) דרך Chromium
 ├── fonts/              # Rubik + Heebo (woff2) + fonts.local.css
 ├── build.sh            # סקריפט בנייה נוח
@@ -38,7 +39,8 @@ pdf-generator/
 ├── SPEC.md             # מפרט המוצר המלא
 └── _html/              # HTML ביניים (נוצר אוטומטית, ב-.gitignore)
 
-../pdf/                 # התוצרים הסופיים (PDF) — נשמרים בריפו
+../pdf/desktop/         # תוצרי A4 (דסקטופ) — נשמרים בריפו
+../pdf/mobile/          # תוצרי עמוד-ארוך (מובייל) — נשמרים בריפו
 ```
 
 ## דרישות והתקנה
@@ -55,20 +57,22 @@ export CHROME_PATH=/path/to/chromium
 ## בנייה
 
 ```bash
-./build.sh 02            # בונה עמוד יחיד (דמי שיקום) → ../pdf/02-*.{desktop,mobile}.pdf
-./build.sh 01 02         # כמה עמודים
+./build.sh 03            # בונה עמוד יחיד (שכר לימוד) → ../pdf/desktop/03-*.pdf + ../pdf/mobile/03-*.pdf
+./build.sh 01 02 03      # כמה עמודים
 ./build.sh all           # כל העמודים
 ```
+התוצרים מאורגנים בתת-תיקיות: `pdf/desktop/<slug>.pdf` (A4) ו-`pdf/mobile/<slug>.pdf` (עמוד ארוך).
 
 ## איך מוסיפים עמוד זכאות חדש (בנייה ייעודית)
 
 עמודי הזכאות **אינם** רינדור שטוח מ-Markdown — הם משחזרים את **רכיבי האתר המקוריים** (כרטיסים ממוספרים, תת-כרטיסים זה-לצד-זה, הדגשות/pills, תרחישים ומדרגות צבעוניים, תוויות נכה כללי/נפגע עבודה וכו'), בדיוק כפי שנעשה בעמוד התהליך ובדמי שיקום.
 
-תהליך הוספת עמוד (למשל שכר לימוד):
-1. קראו את ה-component המקורי של אותה זכאות באתר (`src/components/<benefit>/<benefit>-accordion.tsx`).
-2. העתיקו את `pages/app02.py` כתבנית ל-`pages/app03.py` והתאימו: hero (אייקון/כותרת/תת-כותרת), כרטיס ההקדמה (זהה לכל הזכאויות), וגוף התוכן לפי ה-component — בעזרת העוזרים הקיימים: `sechead, cond, callout, pill, twoup, tier, scenario, innerbox, linkout, checkbullets, dlabel, card, summary, important`.
-3. רשמו את ה-builder ב-`build.sh` (מערך `BESPOKE`).
-4. `./build.sh 03` ובדקו את שתי הגרסאות.
+תהליך הוספת עמוד (למשל שכר דירה):
+1. קראו את ה-component המקורי של אותה זכאות באתר (`src/components/<benefit>/<benefit>-accordion.tsx`) ואת ה-page שלו (כדי לראות אם יש `<BenefitActionButtons showSendDocuments />`).
+2. העתיקו את `pages/app03.py` כתבנית ל-`pages/appNN.py` והתאימו: hero (אייקון/כותרת/תת-כותרת), כרטיס ההקדמה (זהה לכל הזכאויות), וגוף התוכן לפי ה-component. **כל סקשן ראשי נארז ב-`acc(icon,title,*parts)`** (כרטיסיית אקורדיון לבנה נאמנה למקור), ובתוכו העוזרים: `cond, callout, pill, twoup, tier, scenario, innerbox, linkout, checkrow, dlabel, graybox, doccard, bigbtn, summary, important`.
+3. אם בעמוד המקורי יש כפתור שליחת מסמכים — הוסיפו `bigbtn("שליחת מסמכים לעו״ס השיקום")` (מקשר ל-`DocumentsInfo.aspx`).
+4. רשמו את ה-builder ב-`build.sh` (מערך `BESPOKE`).
+5. `./build.sh NN` ובדקו את שתי הגרסאות.
 
 רכיבי עיצוב משותפים נמצאים ב-`base.css` (חפשו "benefit-page rich components"). אפשר להוסיף רכיבים חדשים שם — הם יהיו זמינים לכל העמודים.
 
@@ -86,8 +90,8 @@ export CHROME_PATH=/path/to/chromium
 | # | עמוד | סטטוס |
 |---|------|-------|
 | 01 | הגשת בקשה (תהליך) | ✅ בנייה ייעודית |
-| 02 | דמי שיקום | ✅ בנייה ייעודית |
-| 03 | שכר לימוד | ⏳ ממתין לבנייה ייעודית |
+| 02 | דמי שיקום | ✅ בנייה ייעודית (סקשנים ב-`acc`) |
+| 03 | שכר לימוד | ✅ בנייה ייעודית (צ'קליסט + כפתור שליחה) |
 | 04 | שכר דירה | ⏳ ממתין |
 | 05 | הוצאות נסיעה | ⏳ ממתין |
 | 06 | ציוד לימודי | ⏳ ממתין |
