@@ -51,12 +51,13 @@ def important(text):
             f'<div><h3>חשוב לזכור</h3><p>{text}</p></div></div>')
 
 def elig_note():
-    # thin "שים לב" heads-up under "בקצרה": eligibility is set individually by the rehab worker,
-    # so program approval doesn't guarantee this specific benefit.
-    txt=('זכאות זו, בדומה ליתר הזכאויות, נקבעת על־ידי עובד השיקום בהתאם לקריטריוני זכאות שנקבעו ומפורטים כאן. '
-         'הזכאויות שאושרו לך עבור הסמסטר מופיעות במכתב '+b('"אישור לימודים לסמסטר"')+' ב'
-         f'<a href="{PORTAL}">אזור האישי שלך בביטוח הלאומי</a>.')
-    return f'<div class="notice"><span class="nt">שים לב</span><p>{txt}</p></div>'
+    # frameless heads-up under "בקצרה" (amber side-bar): eligibility is set individually by the
+    # rehab worker per fixed criteria, approved per-semester — program approval ≠ this benefit.
+    txt=('זכאות זו, בדומה ליתר הזכאויות, נקבעת על־ידי עובד השיקום בהתאם לקריטריוני הזכאות המפורטים כאן. '
+         'הזכאויות מאושרות עבור כל סמסטר בנפרד, ופירוט הזכאויות שאושרו לך עבור הסמסטר מופיע במכתב '
+         +b('"אישור לימודים לסמסטר"')+', הזמין ב'
+         f'<a href="{PORTAL}">אזור האישי שלך באתר הביטוח הלאומי</a>.')
+    return f'<div class="eligbar"><p>{txt}</p></div>'
 
 def cond(n,title,inner):
     return (f'<div class="cond"><div class="cond-h"><span class="ncirc">{n}</span><h4>{E(title)}</h4></div>{inner}</div>')
