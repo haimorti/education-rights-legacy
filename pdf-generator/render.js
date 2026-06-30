@@ -1,0 +1,68 @@
+// render.js <input.html> <outPrefix>
+// Produces <outPrefix>.desktop.pdf/.png and <outPrefix>.mobile.pdf/.png
+// Single long page (no pagination): page height = content height.
+const { chromium } = require('playwright-core');
+const path = require('path');
+
+const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+
+async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, paginate) {
+  const ctx = await browser.newContext({
+    viewport: { width: widthPx, height: 1200 },
+    deviceScaleFactor: 2,
+  });
+  const page = await ctx.newPage();
+  await page.addInitScript((v) => { window.__VARIANT__ = v; }, variant);
+  await page.goto(fileUrl, { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate((v) => { document.documentElement.setAttribute('data-variant', v); }, variant);
+  await page.waitForTimeout(150);
+
+  // measure full content height at this width
+  const height = await page.evaluate(() => {
+    const el = document.querySelector('.page') || document.body;
+    return Math.ceil(el.getBoundingClientRect().height);
+  });
+
+  if (paginate) {
+    // Desktop: flow content across A4 pages -> stays crisp on desktop viewers
+    await page.emulateMedia({ media: 'print' });
+    await page.pdf({
+      path: `${outPrefix}.${variant}.pdf`,
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '15mm', bottom: '13mm', left: '0', right: '0' },
+    });
+  } else {
+    // Mobile: single long page (no pagination)
+    await page.pdf({
+      path: `${outPrefix}.${variant}.pdf`,
+      width: `${widthPx}px`,
+      height: `${height}px`,
+      printBackground: true,
+      margin: { top: '0', bottom: '0', left: '0', right: '0' },
+      pageRanges: '1',
+    });
+  }
+
+  // optional full-page PNG preview (set RENDER_PNG=1) — for visual review, not a deliverable
+  if (process.env.RENDER_PNG) {
+    await page.emulateMedia({ media: 'screen' });
+    await page.setViewportSize({ width: widthPx, height });
+    await page.screenshot({ path: `${outPrefix}.${variant}.png`, fullPage: true });
+  }
+
+  await ctx.close();
+  return height;
+}
+
+(async () => {
+  const [, , input, outPrefix] = process.argv;
+  if (!input || !outPrefix) { console.error('usage: render.js <input.html> <outPrefix>'); process.exit(1); }
+  const fileUrl = 'file://' + path.resolve(input);
+  const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
+  const d = await renderVariant(browser, fileUrl, outPrefix, 'desktop', 794, true);   // desktop -> A4 paginated (crisp)
+  const m = await renderVariant(browser, fileUrl, outPrefix, 'mobile', 390, false);   // mobile -> single long page
+  await browser.close();
+  console.log(`OK ${path.basename(outPrefix)} | desktop ${d}px | mobile ${m}px`);
+})().catch(e => { console.error(e); process.exit(1); });
