@@ -33,13 +33,17 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
   const pdfPath = path.join(variantDir, `${slug}.pdf`);
 
   if (paginate) {
-    // Desktop: flow content across A4 pages -> stays crisp on desktop viewers
+    // Desktop: flow content across A4 pages -> stays crisp on desktop viewers.
+    // Page numbers ("X / Y") in the bottom margin — desktop only (mobile is one long page).
     await page.emulateMedia({ media: 'print' });
     await page.pdf({
       path: pdfPath,
       format: 'A4',
       printBackground: true,
-      margin: { top: '15mm', bottom: '13mm', left: '0', right: '0' },
+      displayHeaderFooter: true,
+      headerTemplate: '<div></div>',
+      footerTemplate: '<div style="width:100%;font-size:9px;color:#9aa3af;text-align:center;font-family:Arial,Helvetica,sans-serif;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
+      margin: { top: '15mm', bottom: '15mm', left: '0', right: '0' },
     });
   } else {
     // Mobile: single long page (no pagination)
