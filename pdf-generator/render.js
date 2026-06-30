@@ -1,8 +1,9 @@
-// render.js <input.html> <outPrefix>
-// Produces <outPrefix>.desktop.pdf/.png and <outPrefix>.mobile.pdf/.png
-// Single long page (no pagination): page height = content height.
+// render.js <input.html> <outDir>/<slug>
+// Produces <outDir>/desktop/<slug>.pdf (+ .png) and <outDir>/mobile/<slug>.pdf (+ .png)
+// Single long page (no pagination) for mobile; A4 pagination for desktop.
 const { chromium } = require('playwright-core');
 const path = require('path');
+const fs = require('fs');
 
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
@@ -24,11 +25,18 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
     return Math.ceil(el.getBoundingClientRect().height);
   });
 
+  // organize deliverables into per-variant folders: <outDir>/<variant>/<slug>.pdf
+  const outDir = path.dirname(outPrefix);
+  const slug = path.basename(outPrefix);
+  const variantDir = path.join(outDir, variant);
+  fs.mkdirSync(variantDir, { recursive: true });
+  const pdfPath = path.join(variantDir, `${slug}.pdf`);
+
   if (paginate) {
     // Desktop: flow content across A4 pages -> stays crisp on desktop viewers
     await page.emulateMedia({ media: 'print' });
     await page.pdf({
-      path: `${outPrefix}.${variant}.pdf`,
+      path: pdfPath,
       format: 'A4',
       printBackground: true,
       margin: { top: '15mm', bottom: '13mm', left: '0', right: '0' },
@@ -36,7 +44,7 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
   } else {
     // Mobile: single long page (no pagination)
     await page.pdf({
-      path: `${outPrefix}.${variant}.pdf`,
+      path: pdfPath,
       width: `${widthPx}px`,
       height: `${height}px`,
       printBackground: true,
@@ -49,7 +57,7 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
   if (process.env.RENDER_PNG) {
     await page.emulateMedia({ media: 'screen' });
     await page.setViewportSize({ width: widthPx, height });
-    await page.screenshot({ path: `${outPrefix}.${variant}.png`, fullPage: true });
+    await page.screenshot({ path: path.join(variantDir, `${slug}.png`), fullPage: true });
   }
 
   await ctx.close();

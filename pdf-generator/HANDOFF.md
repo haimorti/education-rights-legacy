@@ -6,10 +6,10 @@
 הפקת מדריכי **PDF נאמנים לאתר** "שיקום מקצועי לסטודנטים" מתוך תוכן הזכאויות, להעברה למבוטחים ב**אימייל ובפגישה** (אי אפשר להטמיע אתר חיצוני בארגון). לכל מדריך **2 קבצים**: **דסקטופ** (A4 מרובה-עמודים, רקע לבן) ו**מובייל** (עמוד אחד ארוך, רקע בהיר).
 
 ## איפה הכול
-- **ריפו:** `haimorti/education-rights-legacy`, ענף עבודה: **`claude/file-organization-mi6zvd`** (קיים PR #1 פתוח — push לענף מעדכן אותו).
+- **ריפו:** `haimorti/education-rights-legacy`, ענף עבודה: **`claude/great-bell-27vifj`**.
 - **תוכן מקור:** `docs/01..08-*.md`.
-- **המנגנון:** `pdf-generator/` (base.css, generate.py, pages/app01.py, pages/app02.py, render.js, fonts/, build.sh).
-- **תוצרים:** `pdf/<slug>.{desktop,mobile}.pdf`.
+- **המנגנון:** `pdf-generator/` (base.css, generate.py, pages/app01.py, app02.py, app03.py, render.js, fonts/, build.sh).
+- **תוצרים:** `pdf/desktop/<slug>.pdf` ו-`pdf/mobile/<slug>.pdf` (מאורגנים בתת-תיקיות לפי גרסה).
 - **קוד האתר המקורי** (להעתקת עיצוב!): נמצא ב-**`origin/main`** תחת `shikum-accessibility-main/`. לקרוא רכיב:
   `git show origin/main:shikum-accessibility-main/src/components/<benefit>/<benefit>-accordion.tsx`
   (וכן `-hero.tsx`, `-summary.tsx`, `-toc.tsx`). הענף שלנו לא מכיל את התיקייה — רק origin/main.
@@ -32,8 +32,10 @@ CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome ./build.sh 02
 
 ## איך מוסיפים עמוד זכאות חדש (03–08)
 1. `git show origin/main:shikum-accessibility-main/src/components/<benefit>/<benefit>-accordion.tsx` — קרא את המבנה.
-2. העתק `pages/app02.py` ל-`pages/app03.py`, עדכן hero (אייקון/כותרת/תת-כותרת) ושחזר את התוכן עם העוזרים:
-   `sechead, cond, callout(amber|red|blue), pill, twoup, tier(p|a|d), scenario(muted|blue|amber), innerbox, linkout, checkbullets, dlabel, card, summary, important, intro_card, p, b`.
+2. העתק `pages/app03.py` (תבנית עדכנית) ל-`pages/appNN.py`, עדכן hero (אייקון/כותרת/תת-כותרת) ושחזר את התוכן עם העוזרים:
+   `acc(icon,title,*parts)` — **כל סקשן ראשי נארז ב-acc** (כרטיסיית אקורדיון לבנה כמו במקור); ובתוכו
+   `cond, callout(amber|red|blue), pill, twoup, tier(p|a|d), scenario(muted|blue|amber), innerbox, linkout, checkrow, checkbullets, dlabel, graybox, doccard, bigbtn, summary, important, intro_card, p, b`.
+   - **כפתור "שליחת מסמכים"**: `bigbtn("שליחת מסמכים לעו״ס השיקום")` — רק אם בעמוד המקורי `<BenefitActionButtons showSendDocuments />` (כמו בשכר לימוד). מקשר ל-`DocumentsInfo.aspx`.
 3. רשום ב-`build.sh` במערך `BESPOKE`.
 4. `./build.sh 03` ובדוק דסקטופ+מובייל.
 
@@ -49,11 +51,16 @@ CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome ./build.sh 02
 (ההירו עצמו תמיד כחול כמו באתר; הצבע משמש להבחנה ויזואלית עדינה אם בכלל.)
 
 ## סטטוס
-- ✅ 01 (תהליך) — בנייה ייעודית, ב-pdf/.
-- ✅ 02 (דמי שיקום) — בנייה ייעודית, ב-pdf/.
-- ⏳ 03–08 — ממתינים לבנייה ייעודית.
+- ✅ 01 (תהליך) — בנייה ייעודית.
+- ✅ 02 (דמי שיקום) — בנייה ייעודית. כל הסקשנים ארוזים ב-`acc` (כרטיסיית אקורדיון לבנה נאמנה למקור).
+- ✅ 03 (שכר לימוד) — בנייה ייעודית, כולל צ'קליסט קבלה וכפתור "שליחת מסמכים".
+- ⏳ 04–08 — ממתינים לבנייה ייעודית (תבנית: `pages/app03.py`).
+
+## עדכון מבנה (אחרון)
+- **`.acc`** ב-`base.css` — כרטיסיית אקורדיון לבנה שעוטפת כל סקשן ראשי, עם `box-decoration-break:clone`
+  (בדסקטופ הכרטיס נסגר בתחתית עמוד ונפתח מחדש בראש הבא; במובייל כרטיס רציף). זה הסטנדרט החדש לכל עמודי הזכאות.
+- **תוצרים מאורגנים בתת-תיקיות:** `pdf/desktop/` ו-`pdf/mobile/` (לא יותר סיומת `.desktop`/`.mobile` בשם הקובץ).
 
 ## פתוח / TODO
-- **תיקון ממתין בדמי שיקום (02)** — המשתמש יפרט בשיחה הבאה. לתקן ב-`pages/app02.py` ו/או `base.css`, ואז `./build.sh 02`.
-- פוטר עמוד 01 יושב בעמוד אחרון משלו (מינורי).
-- להמשיך 03–08.
+- פוטר עמוד 01 יושב בעמוד אחרון משלו (מינורי; קיים גם דפוס דומה אם עמוד מסתיים בדיוק בגבול).
+- להמשיך 04–08.

@@ -6,7 +6,7 @@
 #   ./build.sh 01 02         # build several
 #   ./build.sh all           # build every page
 #
-# Output: ../pdf/<slug>.desktop.pdf  and  ../pdf/<slug>.mobile.pdf
+# Output: ../pdf/desktop/<slug>.pdf  and  ../pdf/mobile/<slug>.pdf
 # Requires: python3, node, and `npm install` (playwright-core) run once in this dir.
 # Chromium: set CHROME_PATH to your Chrome/Chromium binary if the default isn't present.
 set -euo pipefail
@@ -30,6 +30,7 @@ declare -A SLUG=(
 declare -A BESPOKE=(
   [01]=pages/app01.py
   [02]=pages/app02.py
+  [03]=pages/app03.py
 )
 
 build_one () {
@@ -42,7 +43,7 @@ build_one () {
     python3 generate.py "$slug" >/dev/null
   fi
   node render.js "_html/$slug.html" "$OUTDIR/$slug"
-  echo "built $slug -> pdf/$slug.{desktop,mobile}.pdf"
+  echo "built $slug -> pdf/desktop/$slug.pdf  +  pdf/mobile/$slug.pdf"
 }
 
 if [ "$#" -eq 0 ]; then
