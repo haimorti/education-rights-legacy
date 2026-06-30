@@ -203,6 +203,32 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .innerbox p{font-size:12.5px;line-height:1.5;color:var(--muted);}
 .linkout{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--primary-d);margin-top:6px;font-size:13px;}
 .bignum{font-size:17px;font-weight:800;color:var(--primary-d);}
+/* inline link mid-sentence (underlined, small external-link glyph) */
+.linkin{color:var(--primary-d);font-weight:700;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;}
+.linkin .icon{vertical-align:-2px;margin-right:2px;}
+/* stat cards (big amount) — e.g. aid amounts. accent variant for the highlighted option */
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:11px 0;}
+.statcard{border:1px solid var(--border);border-radius:12px;padding:14px 15px;background:#fff;}
+.statcard.accent{border:2px solid var(--accent-bd);background:var(--accent-soft);}
+.statcard .mh{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.statcard .mh .icon{color:var(--primary);}
+.statcard.accent .mh .icon{color:hsl(32 90% 45%);}
+.statcard h5{font-size:13px;font-weight:800;}
+.statcard .big{font-size:23px;font-weight:800;color:var(--primary-d);margin:1px 0 3px;}
+.statcard.accent .big{color:hsl(32 90% 44%);}
+.statcard p{font-size:12px;line-height:1.45;color:var(--muted);}
+.statcard .fine{font-size:11px;color:hsl(220 10% 55%);margin-top:5px;}
+/* worked-example box with mini stat tiles (e.g. rent-aid illustration) */
+.exbox{background:hsl(210 16% 96.5%);border:1px solid var(--border);border-radius:14px;padding:15px 17px;}
+.exbox .exh{font-size:11.5px;font-weight:800;letter-spacing:.6px;color:var(--muted);margin-bottom:11px;}
+.extiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+.extile{background:#fff;border-radius:10px;padding:11px 7px;text-align:center;box-shadow:0 2px 6px rgba(16,40,70,.05);}
+.extile.hl{background:var(--primary-soft);}
+.extile .lbl{font-size:10.5px;font-weight:600;color:var(--muted);line-height:1.3;}
+.extile .val{font-size:17px;font-weight:800;color:var(--fg);margin-top:4px;}
+.extile.hl .val{color:var(--primary-d);}
+.extile .sub{font-size:9.5px;color:var(--muted);margin-top:2px;}
+.exbox .exnote{font-size:12.5px;line-height:1.55;color:var(--muted);margin-top:12px;}
 
 /* ===== part wrappers (soft background per section, behind cards) ===== */
 .part{border-radius:20px;padding:8px 16px 18px;
@@ -291,7 +317,7 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 @media print{
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
-  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow{
+  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile{
     break-inside:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
   .phase{break-inside:avoid; break-after:avoid;}
@@ -318,6 +344,7 @@ html[data-variant="mobile"] .phase .circ{width:48px;height:48px;font-size:17px;}
 html[data-variant="mobile"] .phase .line{gap:12px;}
 html[data-variant="mobile"] .part{padding:6px 10px 14px;border-radius:16px;}
 html[data-variant="mobile"] .twoup{grid-template-columns:1fr;}
+html[data-variant="mobile"] .statgrid{grid-template-columns:1fr;}
 html[data-variant="mobile"] .bigbtn a{font-size:15px;padding:14px 18px;}
 html[data-variant="mobile"] .page{width:390px;padding-bottom:24px;}
 html[data-variant="mobile"] .hero{padding:30px 22px 26px;}

@@ -85,9 +85,9 @@ def bigbtn(label, url=DOCS_URL):
 
 def build():
     B=[]
-    B.append(intro_card())
     B.append(summary('אתה זכאי להחזר שכר לימוד עד '+b('13,079 ₪')+' לשנת לימודים. ההחזר משולם לחשבונך כנגד קבלות על תשלום שבוצע בפועל. '
                      'אם שכר הלימוד גבוה מהתקרה, יהיה עליך לשאת בהפרש באופן עצמאי. ההחזר משולם בשתי פעימות — בסמסטר א׳ ובסמסטר ב׳.'))
+    B.append(intro_card())
 
     # ===== Section 1: refund ceiling (white accordion card) =====
     B.append(acc("calc","תקרת ההחזר",

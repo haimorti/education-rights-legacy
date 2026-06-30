@@ -31,6 +31,7 @@ declare -A BESPOKE=(
   [01]=pages/app01.py
   [02]=pages/app02.py
   [03]=pages/app03.py
+  [04]=pages/app04.py
 )
 
 build_one () {
