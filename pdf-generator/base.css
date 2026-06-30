@@ -154,6 +154,11 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .checkrow{display:flex;gap:10px;align-items:flex-start;margin:2px 0;}
 .checkrow .icon{color:var(--primary);flex:0 0 auto;margin-top:1px;}
 .checkrow p{font-size:13.5px;line-height:1.6;color:hsl(220 14% 25%);}
+/* thin "שים לב" heads-up frame (no icon) — site's attention-note style, imported sans triangle.
+   used for the eligibility note that sits under "בקצרה". */
+.notice{border:2px solid hsl(0 74% 82%);background:var(--destructive-soft);border-radius:12px;padding:11px 16px;}
+.notice .nt{font-weight:800;color:var(--destructive);font-size:13px;}
+.notice p{font-size:13px;line-height:1.6;color:hsl(220 18% 27%);margin-top:2px;}
 
 .pill{background:hsl(199 89% 91%);color:var(--primary-d);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap;}
 /* numbered condition card */
@@ -317,7 +322,7 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 @media print{
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
-  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile{
+  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile,.notice{
     break-inside:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
   .phase{break-inside:avoid; break-after:avoid;}

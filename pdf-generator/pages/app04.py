@@ -50,13 +50,13 @@ def important(text):
     return (f'<div class="important"><div class="ico">{svg("alert",19,"hsl(38 92% 42%)")}</div>'
             f'<div><h3>חשוב לזכור</h3><p>{text}</p></div></div>')
 
-def intro_card():
-    txt=('זכאות זו, כמו שאר התמיכות בתוכנית השיקום, נקבעת באופן אישי על-ידי עובד השיקום. '
-         'לאחר שלימודיך אושרו כתוכנית השיקום והגשת מערכת שעות, עובד השיקום בוחן את נתוניך וקובע אילו זכאויות מאושרות לך לסמסטר. '
-         'הזכאויות שאושרו לך מפורטות במכתב '+b('"אישור לימודים לסמסטר"')+', שתמצא/י ב'
-         f'<a href="{PORTAL}">אזור האישי שלך באתר הביטוח הלאומי</a> — אם אכן אושרו לך זכאויות לסמסטר הקרוב.')
-    return (f'<div class="card sec"><h3 class="sec-h"><span class="sec-ico">{svg("userc",18)}</span>'
-            f'איך נקבעת הזכאות שלך?</h3><p class="par">{txt}</p></div>')
+def elig_note():
+    # thin "שים לב" heads-up under "בקצרה": eligibility is set individually by the rehab worker,
+    # so program approval doesn't guarantee this specific benefit.
+    txt=('זכאות זו, בדומה ליתר הזכאויות, נקבעת על־ידי עובד השיקום בהתאם לקריטריוני זכאות שנקבעו ומפורטים כאן. '
+         'הזכאויות שאושרו לך עבור הסמסטר מופיעות במכתב '+b('"אישור לימודים לסמסטר"')+' ב'
+         f'<a href="{PORTAL}">אזור האישי שלך בביטוח הלאומי</a>.')
+    return f'<div class="notice"><span class="nt">שים לב</span><p>{txt}</p></div>'
 
 def callout(variant, html_text, icon=None):
     ic = icon or ("alert" if variant in ("red",) else "info")
@@ -100,7 +100,7 @@ def bigbtn(label, url=DOCS_URL):
 def build():
     B=[]
     B.append(summary("סיוע בתשלום שכר דירה למשתקמים שמקום לימודיהם מרוחק ממקום מגוריהם הקבוע."))
-    B.append(intro_card())
+    B.append(elig_note())
 
     # ===== Section 1: basic eligibility =====
     B.append(acc("check","תנאי זכאות בסיסיים",

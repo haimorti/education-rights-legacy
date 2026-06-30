@@ -50,13 +50,13 @@ def important(text):
     return (f'<div class="important"><div class="ico">{svg("alert",19,"hsl(38 92% 42%)")}</div>'
             f'<div><h3>חשוב לזכור</h3><p>{text}</p></div></div>')
 
-def intro_card():
-    txt=('זכאות זו, כמו שאר התמיכות בתוכנית השיקום, נקבעת באופן אישי על-ידי עובד השיקום. '
-         'לאחר שלימודיך אושרו כתוכנית השיקום והגשת מערכת שעות, עובד השיקום בוחן את נתוניך וקובע אילו זכאויות מאושרות לך לסמסטר. '
-         'הזכאויות שאושרו לך מפורטות במכתב '+b('"אישור לימודים לסמסטר"')+', שתמצא/י ב'
-         f'<a href="{PORTAL}">אזור האישי שלך באתר הביטוח הלאומי</a> — אם אכן אושרו לך זכאויות לסמסטר הקרוב.')
-    return (f'<div class="card sec"><h3 class="sec-h"><span class="sec-ico">{svg("userc",18)}</span>'
-            f'איך נקבעת הזכאות שלך?</h3><p class="par">{txt}</p></div>')
+def elig_note():
+    # thin "שים לב" heads-up under "בקצרה": eligibility is set individually by the rehab worker,
+    # so program approval doesn't guarantee this specific benefit.
+    txt=('זכאות זו, בדומה ליתר הזכאויות, נקבעת על־ידי עובד השיקום בהתאם לקריטריוני זכאות שנקבעו ומפורטים כאן. '
+         'הזכאויות שאושרו לך עבור הסמסטר מופיעות במכתב '+b('"אישור לימודים לסמסטר"')+' ב'
+         f'<a href="{PORTAL}">אזור האישי שלך בביטוח הלאומי</a>.')
+    return f'<div class="notice"><span class="nt">שים לב</span><p>{txt}</p></div>'
 
 def cond(n,title,inner):
     return (f'<div class="cond"><div class="cond-h"><span class="ncirc">{n}</span><h4>{E(title)}</h4></div>{inner}</div>')
@@ -100,7 +100,7 @@ URL_RATES="https://www.btl.gov.il/benefits/Disability/Pages/%D7%A9%D7%99%D7%A2%D
 def build():
     B=[]
     B.append(summary("דמי שיקום משולמים למשתקם בתקופת לימודיו לצורך מחיה חודשית וכדי שתהיה פנוי ללימודיך."))
-    B.append(intro_card())
+    B.append(elig_note())
 
     # ===== Section 1: eligibility (white accordion card) =====
     B.append(acc("shield","תנאי הזכאות לדמי שיקום",
