@@ -133,6 +133,19 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .sechead .si{width:38px;height:38px;border-radius:11px;background:var(--primary-ico);
   display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
 .sechead h3{font-size:18px;font-weight:800;color:var(--fg);}
+/* accordion-style section card — each top-level section wrapped in a white card with an
+   icon+title header (faithful to the original site's AccordionItem). On desktop the white
+   card closes at the bottom of a page and reopens at the top of the next (box-decoration-break:clone),
+   so large sections split across pages without being clipped. */
+.acc{background:var(--card);border:1px solid var(--card-bd);border-radius:var(--radius);
+  box-shadow:0 4px 14px rgba(16,40,70,.06);padding:4px 20px 18px;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;}
+.acc>*{margin-bottom:12px;}
+.acc>*:last-child{margin-bottom:0;}
+.acc-h{display:flex;align-items:center;gap:11px;padding-top:14px;}
+.acc-h .si{width:40px;height:40px;border-radius:12px;background:var(--primary-ico);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.acc-h h3{font-size:18px;font-weight:800;color:var(--fg);}
 .lead{font-size:14px;line-height:1.6;color:var(--muted);margin:2px 0;}
 .checks{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:8px;}
 .checks li{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--fg);}
@@ -278,10 +291,12 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
     break-inside:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
   .phase{break-inside:avoid; break-after:avoid;}
-  .sec-h,.dlabel,.sub,.sub2,.cl-head,.planbox .ph,.sechead,.lead{break-after:avoid;}
+  .sec-h,.dlabel,.sub,.sub2,.cl-head,.planbox .ph,.sechead,.lead,.acc-h{break-after:avoid;}
   p,.par{orphans:2;widows:2;}
   .bigbtn{break-before:avoid;}
-  .part{break-inside:auto;}
+  /* the accordion section card itself splits across pages (clone closes/reopens it);
+     only its inner atomic units (.cond/.callout/...) stay intact */
+  .part,.acc{break-inside:auto;}
   /* each major (phase) section starts at the top of a fresh page -> no leading empty tint.
      DESKTOP ONLY — mobile is a single long page and must never force-break (would clip content). */
   html[data-variant="desktop"] .part-step,
@@ -308,6 +323,8 @@ html[data-variant="mobile"] .hero-ico{width:50px;height:50px;border-radius:14px;
 html[data-variant="mobile"] .body{padding:14px 18px 0;gap:11px;}
 html[data-variant="mobile"] .foot{margin:16px 18px 0;}
 html[data-variant="mobile"] .sec{padding:15px 16px;}
+html[data-variant="mobile"] .acc{padding:2px 16px 15px;}
+html[data-variant="mobile"] .acc-h h3{font-size:16px;}
 html[data-variant="mobile"] .summary{padding:15px 16px;}
 html[data-variant="mobile"] .important{padding:14px 16px;}
 html[data-variant="mobile"] .sec-h{font-size:16px;}
