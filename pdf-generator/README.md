@@ -69,7 +69,7 @@ export CHROME_PATH=/path/to/chromium
 
 תהליך הוספת עמוד (למשל שכר דירה):
 1. קראו את ה-component המקורי של אותה זכאות באתר (`src/components/<benefit>/<benefit>-accordion.tsx`) ואת ה-page שלו (כדי לראות אם יש `<BenefitActionButtons showSendDocuments />`).
-2. העתיקו את `pages/app03.py` כתבנית ל-`pages/appNN.py` והתאימו: hero (אייקון/כותרת/תת-כותרת), כרטיס ההקדמה (זהה לכל הזכאויות), וגוף התוכן לפי ה-component. **כל סקשן ראשי נארז ב-`acc(icon,title,*parts)`** (כרטיסיית אקורדיון לבנה נאמנה למקור), ובתוכו העוזרים: `cond, callout, pill, twoup, tier, scenario, innerbox, linkout, checkrow, dlabel, graybox, doccard, bigbtn, summary, important`.
+2. העתיקו את `pages/app04.py` כתבנית ל-`pages/appNN.py` והתאימו: hero (אייקון/כותרת/תת-כותרת), ואז הגוף בסדר הקבוע — **קודם `summary()` ("בקצרה"), אחריו `intro_card()` ("איך נקבעת הזכאות שלך?"), ואז הסקשנים**. **כל סקשן ראשי נארז ב-`acc(icon,title,*parts)`** (כרטיסיית אקורדיון לבנה נאמנה למקור), ובתוכו העוזרים: `cond, callout(blue|amber|red), pill, twoup/minicard, tier, scenario, innerbox, linkin/linkout, iconrow, dlabel, graybox, doccard, statgrid/statcard, exbox, bigbtn, important`.
 3. אם בעמוד המקורי יש כפתור שליחת מסמכים — הוסיפו `bigbtn("שליחת מסמכים לעו״ס השיקום")` (מקשר ל-`DocumentsInfo.aspx`).
 4. רשמו את ה-builder ב-`build.sh` (מערך `BESPOKE`).
 5. `./build.sh NN` ובדקו את שתי הגרסאות.
@@ -92,7 +92,7 @@ export CHROME_PATH=/path/to/chromium
 | 01 | הגשת בקשה (תהליך) | ✅ בנייה ייעודית |
 | 02 | דמי שיקום | ✅ בנייה ייעודית (סקשנים ב-`acc`) |
 | 03 | שכר לימוד | ✅ בנייה ייעודית (צ'קליסט + כפתור שליחה) |
-| 04 | שכר דירה | ⏳ ממתין |
+| 04 | שכר דירה | ✅ בנייה ייעודית (כרטיסי-סכום + תיבת דוגמה + כפתור) |
 | 05 | הוצאות נסיעה | ⏳ ממתין |
 | 06 | ציוד לימודי | ⏳ ממתין |
 | 07 | שיעורי עזר | ⏳ ממתין |

@@ -32,10 +32,11 @@ CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome ./build.sh 02
 
 ## איך מוסיפים עמוד זכאות חדש (03–08)
 1. `git show origin/main:shikum-accessibility-main/src/components/<benefit>/<benefit>-accordion.tsx` — קרא את המבנה.
-2. העתק `pages/app03.py` (תבנית עדכנית) ל-`pages/appNN.py`, עדכן hero (אייקון/כותרת/תת-כותרת) ושחזר את התוכן עם העוזרים:
-   `acc(icon,title,*parts)` — **כל סקשן ראשי נארז ב-acc** (כרטיסיית אקורדיון לבנה כמו במקור); ובתוכו
-   `cond, callout(amber|red|blue), pill, twoup, tier(p|a|d), scenario(muted|blue|amber), innerbox, linkout, checkrow, checkbullets, dlabel, graybox, doccard, bigbtn, summary, important, intro_card, p, b`.
-   - **כפתור "שליחת מסמכים"**: `bigbtn("שליחת מסמכים לעו״ס השיקום")` — רק אם בעמוד המקורי `<BenefitActionButtons showSendDocuments />` (כמו בשכר לימוד). מקשר ל-`DocumentsInfo.aspx`.
+2. העתק `pages/app04.py` (תבנית עדכנית — הכי הרבה רכיבים) ל-`pages/appNN.py`, עדכן hero (אייקון/כותרת/תת-כותרת),
+   והרכב את הגוף: `summary()` → `intro_card()` → סקשנים. **כל סקשן ראשי נארז ב-`acc(icon,title,*parts)`**, ובתוכו העוזרים:
+   `cond, callout(blue|amber|red), pill, twoup/minicard, tier, scenario, innerbox, linkin/linkout, iconrow/checkrow,
+   dlabel, graybox, doccard, statgrid/statcard, exbox/extile, bigbtn, important, p, b`. (לא כל עזר קיים בכל קובץ — העתק מ-app04/app02 לפי הצורך.)
+   - **כפתור "שליחת מסמכים"**: `bigbtn("שליחת מסמכים לעו״ס השיקום")` — רק אם בעמוד המקורי `<BenefitActionButtons showSendDocuments />`. מקשר ל-`DocumentsInfo.aspx`.
 3. רשום ב-`build.sh` במערך `BESPOKE`.
 4. `./build.sh 03` ובדוק דסקטופ+מובייל.
 
@@ -52,15 +53,35 @@ CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome ./build.sh 02
 
 ## סטטוס
 - ✅ 01 (תהליך) — בנייה ייעודית.
-- ✅ 02 (דמי שיקום) — בנייה ייעודית. כל הסקשנים ארוזים ב-`acc` (כרטיסיית אקורדיון לבנה נאמנה למקור).
+- ✅ 02 (דמי שיקום) — בנייה ייעודית. כל הסקשנים ב-`acc`.
 - ✅ 03 (שכר לימוד) — בנייה ייעודית, כולל צ'קליסט קבלה וכפתור "שליחת מסמכים".
-- ⏳ 04–08 — ממתינים לבנייה ייעודית (תבנית: `pages/app03.py`).
+- ✅ 04 (שכר דירה) — בנייה ייעודית, כולל כרטיסי-סכום (statcard) ותיבת דוגמה (exbox) וכפתור.
+- ⏳ 05–08 — ממתינים לבנייה ייעודית (תבנית: `pages/app04.py` — העדכנית ביותר).
 
-## עדכון מבנה (אחרון)
-- **`.acc`** ב-`base.css` — כרטיסיית אקורדיון לבנה שעוטפת כל סקשן ראשי, עם `box-decoration-break:clone`
-  (בדסקטופ הכרטיס נסגר בתחתית עמוד ונפתח מחדש בראש הבא; במובייל כרטיס רציף). זה הסטנדרט החדש לכל עמודי הזכאות.
-- **תוצרים מאורגנים בתת-תיקיות:** `pdf/desktop/` ו-`pdf/mobile/` (לא יותר סיומת `.desktop`/`.mobile` בשם הקובץ).
+## מוסכמות עיצוב שנלמדו (חשוב — לשמור אחידות!)
+- **סדר ראש העמוד:** קודם `summary()` ("בקצרה"), אחר כך `intro_card()` ("איך נקבעת הזכאות שלך?"), ואז הסקשנים.
+- **כל סקשן ראשי = `acc(icon,title,*parts)`** — כרטיסיית אקורדיון לבנה (`.acc` ב-base.css) עם `box-decoration-break:clone`:
+  בדסקטופ הכרטיס נסגר בתחתית עמוד ונפתח מחדש בראש הבא; במובייל כרטיס רציף. סקשן גדול מתפצל בין עמודים בלי להיחתך.
+- **מוסכמת callout (אחידה ל-02/03/04):**
+  - מידע רך/נייטרלי (`bg-accent/10` במקור) → `callout("blue", txt, "info")` (תיבה לבנה, אייקון info כחול).
+  - "שים לב" להדגשה (`border-2 accent` במקור) → `callout("amber", b("שים לב: ")+txt, "alert")`.
+  - איסור/אזהרה חמורה (`destructive`) → `callout("red", ..., "alert")`.
+- **כפתור "שליחת מסמכים"** (`bigbtn`) — רק אם בעמוד המקורי `<BenefitActionButtons showSendDocuments />`
+  (יש ב-03 שכר לימוד, 04 שכר דירה; **אין** ב-02 דמי שיקום). מקשר ל-`DocumentsInfo.aspx`.
+- **קישורים:** לשלב כל `href` שמופיע ב-component המקורי — inline באמצע משפט עם `linkin(url,text)` (קו תחתון + אייקון ext),
+  או בתחתית תיבה עם `linkout`. תמיד לבדוק: `git show origin/main:.../<benefit>-accordion.tsx | grep href`.
+
+## רכיבי base.css משותפים שנוספו השיחה
+- `.acc`/`.acc-h` — כרטיסיית אקורדיון לבנה (ראו למעלה).
+- `.checkrow` — שורת אייקון (✓/info) + טקסט (בלי תיבה). עוזר: `iconrow(icon,html)`.
+- `.statcard`/`.statgrid` (+`.accent`) — כרטיס סכום עם מספר גדול (`.big`) ו"אותיות קטנות" (`.fine`).
+- `.exbox`/`.extiles`/`.extile`(+`.hl`) — תיבת "דוגמה להמחשה" עם אריחי-סטטיסטיקה.
+- `.linkin` — קישור inline מודגש עם אייקון ext.
+- **כל יחידה אטומית חדשה צריכה להופיע ברשימת `break-inside:avoid` שב-@media print**, אחרת תיחתך בין עמודים.
+
+## מבנה תוצרים
+- `pdf/desktop/<slug>.pdf` (A4) ו-`pdf/mobile/<slug>.pdf` (עמוד ארוך). render.js יוצר את תת-התיקיות אוטומטית.
 
 ## פתוח / TODO
-- פוטר עמוד 01 יושב בעמוד אחרון משלו (מינורי; קיים גם דפוס דומה אם עמוד מסתיים בדיוק בגבול).
-- להמשיך 04–08.
+- פוטר/"חשוב לזכור" לעיתים נדחפים לעמוד אחרון כמעט-ריק (מינורי).
+- להמשיך 05–08 (הבא: 05 הוצאות נסיעה, אייקון Bus).
