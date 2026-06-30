@@ -154,6 +154,51 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .checkrow{display:flex;gap:10px;align-items:flex-start;margin:2px 0;}
 .checkrow .icon{color:var(--primary);flex:0 0 auto;margin-top:1px;}
 .checkrow p{font-size:13.5px;line-height:1.6;color:hsl(220 14% 25%);}
+/* thin "שים לב" heads-up frame (no icon) — site's attention-note style, imported sans triangle.
+   used for the eligibility note that sits under "בקצרה". */
+.notice{border:2px solid hsl(0 74% 82%);background:var(--destructive-soft);border-radius:12px;padding:11px 16px;}
+.notice .nt{font-weight:800;color:var(--destructive);font-size:13px;}
+.notice p{font-size:13px;line-height:1.6;color:hsl(220 18% 27%);margin-top:2px;}
+/* frameless eligibility heads-up with an amber side-bar (no box) — sits under "בקצרה",
+   with generous air above and below so it breathes between the summary and the first section */
+.eligbar{border-right:3px solid var(--accent);padding:7px 16px 7px 0;margin:26px 0 30px;}
+.eligbar p{font-size:13px;line-height:1.75;color:hsl(220 14% 32%);}
+
+/* ===== more shared benefit components (05–08) ===== */
+/* small caption inside a section (e.g. "תנאי זכאות", "התהליך", "מועדי התשלום") */
+.subcap{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.3px;
+  color:var(--muted);margin:4px 0 0;}
+.subcap .icon{color:var(--muted);flex:0 0 auto;}
+/* numbered process row: number circle + inline text, gray box */
+.numline{background:hsl(210 16% 96.5%);border:1px solid var(--border);border-radius:12px;
+  padding:12px 15px;display:flex;gap:12px;align-items:flex-start;}
+.numline .ncirc{flex:0 0 auto;width:28px;height:28px;font-size:13px;}
+.numline p{font-size:13px;line-height:1.55;color:hsl(220 14% 28%);}
+.numline a{font-weight:700;}
+/* white bordered sub-box with icon+title header (e.g. reading services, laptop, "מי זכאי") */
+.subbox{border:1px solid var(--border);border-radius:12px;padding:13px 15px;background:#fff;}
+.subbox .sh{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.subbox .sh .icon{color:var(--primary);flex:0 0 auto;}
+.subbox h5{font-size:13.5px;font-weight:800;color:var(--fg);}
+.subbox p{font-size:12.5px;line-height:1.55;color:var(--muted);margin:3px 0;}
+.subbox .who{font-size:11.5px;font-weight:700;color:var(--primary-d);margin-top:5px;}
+.subbox .pd{margin-bottom:2px;}
+/* primary-tinted soft info box (bg-primary/5) */
+.softbox{display:flex;gap:11px;align-items:flex-start;background:var(--primary-soft);
+  border:1px solid var(--primary-bd);border-radius:11px;padding:12px 15px;}
+.softbox .icon{color:var(--primary-d);flex:0 0 auto;margin-top:1px;}
+.softbox p{font-size:12.5px;line-height:1.55;color:hsl(220 16% 28%);}
+.softbox b,.softbox strong{color:var(--fg);font-weight:800;}
+/* compact 2-col grid of check tiles (e.g. equipment examples) */
+.checktiles{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:6px 0;}
+.checktiles .ct{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--border);
+  background:hsl(214 30% 97.5%);border-radius:10px;padding:10px 12px;}
+.checktiles .ct .icon{color:var(--primary);flex:0 0 auto;margin-top:1px;}
+.checktiles .ct span{font-size:12px;line-height:1.45;color:var(--fg);}
+/* standalone 3-tile row (reuses extile look) — e.g. payment schedule */
+.tiles3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:4px 0;}
+.extile.dim{background:hsl(210 16% 97%);box-shadow:none;border:1px solid var(--border);}
+.extile.dim .val{font-size:12px;font-weight:600;color:var(--muted);}
 
 .pill{background:hsl(199 89% 91%);color:var(--primary-d);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap;}
 /* numbered condition card */
@@ -317,8 +362,10 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 @media print{
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
-  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile{
+  .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile,.notice,.eligbar,
+  .numline,.subbox,.softbox,.checktiles .ct{
     break-inside:avoid;}
+  .subcap{break-after:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
   .phase{break-inside:avoid; break-after:avoid;}
   .sec-h,.dlabel,.sub,.sub2,.cl-head,.planbox .ph,.sechead,.lead,.acc-h{break-after:avoid;}
@@ -345,6 +392,7 @@ html[data-variant="mobile"] .phase .line{gap:12px;}
 html[data-variant="mobile"] .part{padding:6px 10px 14px;border-radius:16px;}
 html[data-variant="mobile"] .twoup{grid-template-columns:1fr;}
 html[data-variant="mobile"] .statgrid{grid-template-columns:1fr;}
+html[data-variant="mobile"] .checktiles{grid-template-columns:1fr;}
 html[data-variant="mobile"] .bigbtn a{font-size:15px;padding:14px 18px;}
 html[data-variant="mobile"] .page{width:390px;padding-bottom:24px;}
 html[data-variant="mobile"] .hero{padding:30px 22px 26px;}
