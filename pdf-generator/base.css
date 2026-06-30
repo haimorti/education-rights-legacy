@@ -159,9 +159,10 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .notice{border:2px solid hsl(0 74% 82%);background:var(--destructive-soft);border-radius:12px;padding:11px 16px;}
 .notice .nt{font-weight:800;color:var(--destructive);font-size:13px;}
 .notice p{font-size:13px;line-height:1.6;color:hsl(220 18% 27%);margin-top:2px;}
-/* frameless eligibility heads-up with an amber side-bar (no box) — sits under "בקצרה" */
-.eligbar{border-right:3px solid var(--accent);padding:2px 15px 2px 0;margin:2px 0;}
-.eligbar p{font-size:13px;line-height:1.65;color:hsl(220 14% 30%);}
+/* frameless eligibility heads-up with an amber side-bar (no box) — sits under "בקצרה",
+   with generous air above and below so it breathes between the summary and the first section */
+.eligbar{border-right:3px solid var(--accent);padding:7px 16px 7px 0;margin:26px 0 30px;}
+.eligbar p{font-size:13px;line-height:1.75;color:hsl(220 14% 32%);}
 
 .pill{background:hsl(199 89% 91%);color:var(--primary-d);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap;}
 /* numbered condition card */
