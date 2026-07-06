@@ -200,6 +200,36 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
 .extile.dim{background:hsl(210 16% 97%);box-shadow:none;border:1px solid var(--border);}
 .extile.dim .val{font-size:12px;font-weight:600;color:var(--muted);}
 
+/* ===== benefits index page (catalog of all entitlements) ===== */
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);color:#fff;
+  border-radius:999px;padding:6px 15px;font-size:12.5px;font-weight:600;margin-top:14px;}
+.bintro{margin-bottom:4px;}
+.bintro h2{font-size:22px;font-weight:800;margin-bottom:7px;color:var(--fg);}
+.bintro p{font-size:13.5px;line-height:1.7;color:var(--muted);}
+.hl-pill{background:var(--primary-ico);color:var(--primary-d);border-radius:6px;padding:1px 8px;font-weight:700;
+  white-space:nowrap;}
+.bgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:6px 0;}
+.bcard{border:1px solid var(--card-bd);border-radius:16px;background:#fff;padding:17px;
+  display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 9px rgba(16,40,70,.05);}
+.bcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.bcard .bico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+.bcard .more{display:inline-flex;align-items:center;gap:5px;background:var(--primary-ico);color:var(--primary-d);
+  border-radius:999px;padding:4px 10px;font-size:10.5px;font-weight:700;white-space:nowrap;}
+.bcard h3{font-size:16px;font-weight:800;color:var(--fg);}
+.bcard p{font-size:12.5px;line-height:1.55;color:var(--muted);}
+/* per-benefit accent colors (icon box bg + icon stroke), faithful to the site grid */
+.c-amber .bico{background:hsl(38 92% 92%);}   .c-amber .bico .icon{stroke:#d97706;}
+.c-blue .bico{background:var(--primary-ico);} .c-blue .bico .icon{stroke:var(--primary-d);}
+.c-emerald .bico{background:hsl(160 60% 91%);} .c-emerald .bico .icon{stroke:#059669;}
+.c-sky .bico{background:hsl(201 90% 91%);}    .c-sky .bico .icon{stroke:#0284c7;}
+.c-violet .bico{background:hsl(258 90% 95%);} .c-violet .bico .icon{stroke:#7c3aed;}
+.c-rose .bico{background:hsl(345 90% 95%);}   .c-rose .bico .icon{stroke:#e11d48;}
+.c-teal .bico{background:hsl(174 65% 90%);}   .c-teal .bico .icon{stroke:#0d9488;}
+.bnote{border:1px solid var(--card-bd);border-radius:16px;background:#fff;padding:17px 20px;text-align:center;
+  box-shadow:0 2px 9px rgba(16,40,70,.05);margin-top:4px;}
+.bnote p{font-size:13px;line-height:1.6;color:var(--muted);margin-bottom:7px;}
+.bnote p.st{font-weight:700;color:var(--fg);margin-bottom:0;}
+
 .pill{background:hsl(199 89% 91%);color:var(--primary-d);border-radius:6px;padding:1px 7px;font-weight:700;white-space:nowrap;}
 /* numbered condition card */
 .cond{background:hsl(210 16% 96.5%);border:1px solid var(--border);border-radius:14px;padding:16px 18px;}
@@ -363,7 +393,7 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
   .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile,.notice,.eligbar,
-  .numline,.subbox,.softbox,.checktiles .ct{
+  .numline,.subbox,.softbox,.checktiles .ct,.bcard,.bnote{
     break-inside:avoid;}
   .subcap{break-after:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
@@ -393,6 +423,7 @@ html[data-variant="mobile"] .part{padding:6px 10px 14px;border-radius:16px;}
 html[data-variant="mobile"] .twoup{grid-template-columns:1fr;}
 html[data-variant="mobile"] .statgrid{grid-template-columns:1fr;}
 html[data-variant="mobile"] .checktiles{grid-template-columns:1fr;}
+html[data-variant="mobile"] .bgrid{grid-template-columns:1fr;}
 html[data-variant="mobile"] .bigbtn a{font-size:15px;padding:14px 18px;}
 html[data-variant="mobile"] .page{width:390px;padding-bottom:24px;}
 html[data-variant="mobile"] .hero{padding:30px 22px 26px;}

@@ -16,6 +16,7 @@ OUTDIR="$REPO/pdf"
 mkdir -p "$OUTDIR" _html
 
 declare -A SLUG=(
+  [00]=00-benefits
   [01]=01-application-process
   [02]=02-rehabilitation-allowance
   [03]=03-tuition
@@ -28,6 +29,7 @@ declare -A SLUG=(
 # Bespoke builders (faithful to the original site components).
 # Pages not listed here fall back to the generic Markdown generator (flat layout — not final).
 declare -A BESPOKE=(
+  [00]=pages/app00.py
   [01]=pages/app01.py
   [02]=pages/app02.py
   [03]=pages/app03.py
@@ -54,5 +56,5 @@ build_one () {
 if [ "$#" -eq 0 ]; then
   echo "usage: ./build.sh <id...|all>   (ids: 01 02 03 04 05 06 07 08)"; exit 1
 fi
-if [ "$1" = "all" ]; then set -- 01 02 03 04 05 06 07 08; fi
+if [ "$1" = "all" ]; then set -- 00 01 02 03 04 05 06 07 08; fi
 for a in "$@"; do build_one "$a"; done
