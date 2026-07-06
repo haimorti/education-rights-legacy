@@ -19,6 +19,7 @@ IC = {
   "bookopen":'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
   "accessibility":'<circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/>',
   "arrowleft":'<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  "info":'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
 }
 def svg(n,s,stroke="currentColor"): return f'<svg class="icon" width="{s}" height="{s}" viewBox="0 0 24 24" stroke="{stroke}">{IC[n]}</svg>'
 def E(t): return html.escape(t, quote=False)
@@ -50,8 +51,9 @@ def build():
       '<div class="bintro"><h2>סל התמיכות והזכאויות</h2>'
       f'<p>{intro}</p></div>'
       f'<div class="bgrid">{cards}</div>'
-      '<div class="bnote"><p>לא כל הזכאויות רלוונטיות לכל סטודנט. הזכאויות תלויות בסוג המוגבלות, סוג הלימודים, ותנאים נוספים.</p>'
-      '<p class="st">לבירור מלא של הזכאויות שלך, פנה/י לפקיד/ת השיקום.</p></div>'
+      f'<div class="bnote"><div class="bnote-ico">{svg("info",19,"hsl(38 92% 42%)")}</div>'
+      '<p>לא כל הזכאויות רלוונטיות לכל סטודנט. הזכאויות תלויות בסוג המוגבלות, סוג הלימודים, ותנאים נוספים.</p>'
+      '<p class="st">לבירור מלא של הזכאויות שלך, פנה לפקיד השיקום.</p></div>'
     )
     # scoped tightening so the whole catalog fits on ONE desktop A4 page
     OVERRIDE = """
@@ -73,10 +75,8 @@ html[data-variant="desktop"] .foot{margin-top:12px;}
   <div class="hero">
     <div class="circle c1"></div><div class="circle c2"></div>
     <div class="hero-row">
-      <div class="hero-ico">{svg("sparkles",30,"#fff")}</div>
-      <div><h1>מימוש זכאויות</h1><p class="sub">עובד השיקום כבר קבע את הזכאויות האישיות שלך? כאן תמצא/י את כל הפרטים על הזכאויות וכיצד לממש כל אחת מהן</p></div>
+      <div><h1>מימוש זכאויות</h1><p class="sub">עובד השיקום כבר קבע את הזכאויות האישיות שלך? כאן תמצא את כל הפרטים על הזכאויות וכיצד לממש כל אחת מהן</p></div>
     </div>
-    <div style="position:relative"><span class="hero-badge">{svg("arrowleft",13,"#fff")} בחר/י זכאות כדי להתחיל</span></div>
   </div>
   <div class="body">
 {body}
