@@ -85,6 +85,12 @@ def resultbox(kind, title, paras, nextline=None):
     ic = "check" if kind=="ok" else "info"
     body=''.join(f'<p>{x}</p>' for x in paras)
     nl = f'<div class="nextline">{nextline}</div>' if nextline else ''
+    # The "no" box sits inside the amber part-decision zone; its default amber fill blends in
+    # (amber-on-amber). Give it a neutral slate fill so it reads clearly against both the white
+    # card and the amber zone — calm tone fits the "we'll discuss alternatives" message.
+    if kind == "no":
+        return (f'<div class="resultbox no" style="background:hsl(210 16% 96.5%);border-color:hsl(210 14% 80%)">'
+                f'<h4 style="color:hsl(220 14% 30%)">{svg(ic,18)}{E(title)}</h4>{body}{nl}</div>')
     return f'<div class="resultbox {kind}"><h4>{svg(ic,18)}{E(title)}</h4>{body}{nl}</div>'
 
 def redbox(title, text):
@@ -133,7 +139,7 @@ def build():
     inner = (p("תוכל להגיש בקשה אם מתקיימים שני התנאים הבאים:")
            + numgrid([
                ("1","אושרה לך זכאות לשיקום מקצועי","הגשת תביעה לשיקום מקצועי וזכאותך אושרה ע\"י עו\"ס שיקום."),
-               ("2","התקבלת ללימודים אקדמיים","התקבלת ללימודי השכלה גבוהה, או שאתה כבר לומד בפועל, ואתה מבקש שהלימודים יוכרו כחלק מתוכנית השיקום."),
+               ("2","התקבלת ללימודים אקדמיים","התקבלת ללימודי השכלה גבוהה "+b("כסטודנט מן המניין")+", או שאתה כבר לומד בפועל, ואתה מבקש שהלימודים יוכרו כחלק מתוכנית השיקום."),
            ]))
     P_intro.append(sec("users","מי יכול להגיש בקשה לאישור לימודיו?", inner, "gray"))
 
@@ -148,7 +154,7 @@ def build():
 
     # ---- PHASE: step 1 ----
     P_step1.append(phase("blue","1","צעד ראשון","הגשת אישור קבלה ללימודים"))
-    inner = (p("אם הנך עומד בשני התנאים – זכאותך אושרה והתקבלת ללימודים אקדמיים – זהו השלב להגיש לעו\"ס השיקום את אישור הקבלה ללימודים.")
+    inner = (p("אם הנך עומד בשני התנאים – זכאותך אושרה והתקבלת ללימודים אקדמיים "+b("כסטודנט מן המניין")+" – זהו השלב להגיש לעו\"ס השיקום את אישור הקבלה ללימודים.")
            + p("את האישור ניתן להעביר גם אם שנת הלימודים טרם החלה, וגם אם טרם ברשותך מערכת שעות, שתידרש בהמשך.")
            + p("מטרת ההגשה המוקדמת היא לאפשר אישור התוכנית בסמוך למועד הקבלה ללימודים, ולהעניק לך " + b("ודאות ושקט נפשי") + " לקראת תחילת הלימודים.")
            + doccard("מה חייב להופיע על אישור הקבלה ללימודים",
