@@ -85,6 +85,12 @@ def resultbox(kind, title, paras, nextline=None):
     ic = "check" if kind=="ok" else "info"
     body=''.join(f'<p>{x}</p>' for x in paras)
     nl = f'<div class="nextline">{nextline}</div>' if nextline else ''
+    # The "no" box sits inside the amber part-decision zone; its default amber fill blends in
+    # (amber-on-amber). Give it a neutral slate fill so it reads clearly against both the white
+    # card and the amber zone — calm tone fits the "we'll discuss alternatives" message.
+    if kind == "no":
+        return (f'<div class="resultbox no" style="background:hsl(210 16% 96.5%);border-color:hsl(210 14% 80%)">'
+                f'<h4 style="color:hsl(220 14% 30%)">{svg(ic,18)}{E(title)}</h4>{body}{nl}</div>')
     return f'<div class="resultbox {kind}"><h4>{svg(ic,18)}{E(title)}</h4>{body}{nl}</div>'
 
 def redbox(title, text):
