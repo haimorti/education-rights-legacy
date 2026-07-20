@@ -22,9 +22,9 @@ RENDER = os.path.join(HERE, "render.js")
 
 # (module file, output slug). Order = delivery order.
 NEW_PAGES = [
-    ("pages/app00.py",  "00-benefits-map"),
     ("pages/app01a.py", "01a-application"),
     ("pages/app01b.py", "01b-schedule-and-benefits"),
+    ("pages/app_hub.py", "benefits-hub"),   # navigation hub (site's /benefits page), replaces the old map
 ]
 BENEFITS = [
     ("pages/app02.py", "02-rehabilitation-allowance"),
