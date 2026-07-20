@@ -98,7 +98,10 @@ def redbox(title, text):
             f'<div><h4>{E(title)}</h4><p>{text}</p></div></div>')
 
 def part(cls, items):
-    return f'<div class="part {cls}">' + '\n'.join(items) + '</div>'
+    # White style (option 2): no spanning tinted zone — transparent on the white page.
+    # Phase color is carried by the phase separator bands + each card's colored border/icon;
+    # cards keep their shadow so they read on white, and page breaks leave clean white space.
+    return '<div class="part" style="background:transparent;padding:0">' + '\n'.join(items) + '</div>'
 
 DOCS_URL="https://b2b.btl.gov.il/BTL.ILG.Payments/DocumentsInfo.aspx"
 PORTAL_URL="https://ps.btl.gov.il/#/login"
@@ -205,6 +208,8 @@ def build():
                 nextline="<b>אושר? זה הצעד הבא שלך:</b> כדי שנוכל לאשר את הזכאויות, עליך להגיש את מערכת השעות מיד עם קבלתה מהמוסד הלימודי.")
            + resultbox("no","כאשר התוכנית אינה עומדת בקריטריונים",
                 ["במקרה שבו עולים שיקולים שעשויים להוביל לדחיית התוכנית, עו\"ס השיקום ישוחח איתך על נימוקי הדחייה ותיבדקנה יחד אפשרויות נוספות שיכולות להתאים לך."]))
+    # NEW transition header: green circle, down-chevron — introduces the decision-received card.
+    P_dec.append(phase("green","chevD","קבלת ההחלטה","לאחר בחינת הבקשה"))
     P_dec.append(sec("mail","איך אדע אם הבקשה שלי אושרה?", inner, "amber"))
 
     # 01a ends after "איך אדע אם הבקשה שלי אושרה?" (the last card in P_dec).

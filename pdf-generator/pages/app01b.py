@@ -92,7 +92,10 @@ def redbox(title, text):
             f'<div><h4>{E(title)}</h4><p>{text}</p></div></div>')
 
 def part(cls, items):
-    return f'<div class="part {cls}">' + '\n'.join(items) + '</div>'
+    # White style (option 2): no spanning tinted zone — transparent on the white page.
+    # Phase color is carried by the phase separator bands + each card's colored border/icon;
+    # cards keep their shadow so they read on white, and page breaks leave clean white space.
+    return '<div class="part" style="background:transparent;padding:0">' + '\n'.join(items) + '</div>'
 
 DOCS_URL="https://b2b.btl.gov.il/BTL.ILG.Payments/DocumentsInfo.aspx"
 PORTAL_URL="https://ps.btl.gov.il/#/login"
