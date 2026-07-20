@@ -1,2 +1,4 @@
 _html/
 node_modules/
+__pycache__/
+pages/__pycache__/
