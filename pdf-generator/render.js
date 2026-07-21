@@ -70,13 +70,24 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, outName, widt
 }
 
 (async () => {
-  const [, , input, outPrefix] = process.argv;
-  if (!input || !outPrefix) { console.error('usage: render.js <input.html> <outPrefix>'); process.exit(1); }
+  const [, , input, outPrefix, variantsArg] = process.argv;
+  if (!input || !outPrefix) { console.error('usage: render.js <input.html> <outPrefix> [variants]'); process.exit(1); }
+  // optional 4th arg: comma list of output variants to render (default: all three)
+  const want = (variantsArg || 'print,desktop,mobile').split(',').map(s => s.trim());
   const fileUrl = 'file://' + path.resolve(input);
   const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
-  const pr = await renderVariant(browser, fileUrl, outPrefix, 'desktop', 'print',   794, true);   // A4 paginated -> workers/print
-  const d  = await renderVariant(browser, fileUrl, outPrefix, 'desktop', 'desktop', 794, false);  // single long page -> insured desktop
-  const m  = await renderVariant(browser, fileUrl, outPrefix, 'mobile',  'mobile',  320, false);  // single long page -> insured mobile
+  // (cssVariant, outFolder, widthPx, paginate)
+  const SPECS = [
+    ['desktop', 'print',   794, true],   // A4 paginated -> workers/print
+    ['desktop', 'desktop', 794, false],  // single long page -> insured desktop
+    ['mobile',  'mobile',  320, false],  // single long page -> insured mobile
+  ];
+  const done = [];
+  for (const [v, out, w, pag] of SPECS) {
+    if (!want.includes(out)) continue;
+    const h = await renderVariant(browser, fileUrl, outPrefix, v, out, w, pag);
+    done.push(`${out} ${h}px`);
+  }
   await browser.close();
-  console.log(`OK ${path.basename(outPrefix)} | print ${pr}px | desktop ${d}px | mobile ${m}px`);
+  console.log(`OK ${path.basename(outPrefix)} | ${done.join(' | ')}`);
 })().catch(e => { console.error(e); process.exit(1); });
