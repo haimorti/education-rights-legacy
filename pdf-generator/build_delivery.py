@@ -38,9 +38,7 @@ LINKS_DESKTOP = {
     "hub": gd("1PsdEKnuOXDly_Cc14pRjVzVGPPfCEmU4"),
     "02-rehabilitation-allowance": gd("17bcooZ5wnlfmE6VtHUa2zfwYsfn1U1QA"),
     "03-tuition":                  gd("17FeTC0EZkFGai1_5giZEqb60JTrcpb4C"),
-    # TODO: desktop "שכר דירה" URL was a duplicate of "שיעורי עזר" — using the mobile file
-    # temporarily (correct content, mobile format). Replace with the real desktop URL when provided.
-    "04-rent-assistance":          gd("1SC75B_evOOsVV0FmODtuD_na_uMkIOol"),
+    "04-rent-assistance":          gd("18FLklfCoD7Dd31Z36lUS6Wegy1JLJzJ3"),
     "05-travel-expenses":          gd("1ghORUcXbvLgm_SYE-mt7F5gB4RawKnzS"),
     "06-study-equipment":          gd("1anSS4IZrLYFtLpXq5hbmD9cZH8AeeAaD"),
     "07-tutoring":                 gd("1A6R5H2pSwX_JtoEKNIiF4kjmgZ5_ovwF"),
