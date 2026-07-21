@@ -235,8 +235,8 @@ def build():
   <div class="hero">
     <div class="circle c1"></div><div class="circle c2"></div>
     <div class="hero-row">
-      <div class="hero-ico">{svg("clip",30,"#fff")}</div>
-      <div><h1>הגשת בקשה לאישור לימודים</h1><p class="sub">מהצעד הראשון ועד אישור הלימודים</p></div>
+      <div class="hero-ico">{svg("cap",30,"#fff")}</div>
+      <div><h1>שיקום מקצועי לסטודנטים בהשכלה גבוהה</h1><p class="sub">מדריך מקיף לסטודנטים עם נכות כללית או נפגעי עבודה שזכאותם לשיקום מקצועי אושרה — מהצעד הראשון ועד מיצוי מלוא הזכאויות והתמיכות לאורך תקופת הלימודים.</p></div>
     </div>
   </div>
   <div class="body">
