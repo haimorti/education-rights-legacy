@@ -1,13 +1,16 @@
 // render.js <input.html> <outDir>/<slug>
-// Produces <outDir>/desktop/<slug>.pdf (+ .png) and <outDir>/mobile/<slug>.pdf (+ .png)
-// Single long page (no pagination) for mobile; A4 pagination for desktop.
+// Produces three deliverables per doc:
+//   <outDir>/print/<slug>.pdf    — desktop styling, A4 paginated (for workers to print)
+//   <outDir>/desktop/<slug>.pdf  — desktop styling, single long page (insured, on-screen, no page cuts)
+//   <outDir>/mobile/<slug>.pdf   — mobile styling, single long page (insured, phone)
 const { chromium } = require('playwright-core');
 const path = require('path');
 const fs = require('fs');
 
 const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
-async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, paginate) {
+// variant = CSS styling key (data-variant: "desktop"|"mobile"); outName = output subfolder.
+async function renderVariant(browser, fileUrl, outPrefix, variant, outName, widthPx, paginate) {
   const ctx = await browser.newContext({
     viewport: { width: widthPx, height: 1200 },
     deviceScaleFactor: 2,
@@ -19,22 +22,20 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
   await page.evaluate((v) => { document.documentElement.setAttribute('data-variant', v); }, variant);
   await page.waitForTimeout(150);
 
-  // measure full content height at this width
+  // measure full content height at this width (screen media)
   const height = await page.evaluate(() => {
     const el = document.querySelector('.page') || document.body;
     return Math.ceil(el.getBoundingClientRect().height);
   });
 
-  // organize deliverables into per-variant folders: <outDir>/<variant>/<slug>.pdf
   const outDir = path.dirname(outPrefix);
   const slug = path.basename(outPrefix);
-  const variantDir = path.join(outDir, variant);
+  const variantDir = path.join(outDir, outName);
   fs.mkdirSync(variantDir, { recursive: true });
   const pdfPath = path.join(variantDir, `${slug}.pdf`);
 
   if (paginate) {
-    // Desktop: flow content across A4 pages -> stays crisp on desktop viewers.
-    // Page numbers ("X / Y") in the bottom margin — desktop only (mobile is one long page).
+    // A4 pagination (print) — page numbers in the bottom margin.
     await page.emulateMedia({ media: 'print' });
     await page.pdf({
       path: pdfPath,
@@ -46,7 +47,7 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
       margin: { top: '15mm', bottom: '15mm', left: '0', right: '0' },
     });
   } else {
-    // Mobile: single long page (no pagination)
+    // Single long page (no pagination, no page cuts) — screen media.
     await page.pdf({
       path: pdfPath,
       width: `${widthPx}px`,
@@ -69,12 +70,24 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
 }
 
 (async () => {
-  const [, , input, outPrefix] = process.argv;
-  if (!input || !outPrefix) { console.error('usage: render.js <input.html> <outPrefix>'); process.exit(1); }
+  const [, , input, outPrefix, variantsArg] = process.argv;
+  if (!input || !outPrefix) { console.error('usage: render.js <input.html> <outPrefix> [variants]'); process.exit(1); }
+  // optional 4th arg: comma list of output variants to render (default: all three)
+  const want = (variantsArg || 'print,desktop,mobile').split(',').map(s => s.trim());
   const fileUrl = 'file://' + path.resolve(input);
   const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
-  const d = await renderVariant(browser, fileUrl, outPrefix, 'desktop', 794, true);   // desktop -> A4 paginated (crisp)
-  const m = await renderVariant(browser, fileUrl, outPrefix, 'mobile', 390, false);   // mobile -> single long page
+  // (cssVariant, outFolder, widthPx, paginate)
+  const SPECS = [
+    ['desktop', 'print',   794, true],   // A4 paginated -> workers/print
+    ['desktop', 'desktop', 794, false],  // single long page -> insured desktop
+    ['mobile',  'mobile',  320, false],  // single long page -> insured mobile
+  ];
+  const done = [];
+  for (const [v, out, w, pag] of SPECS) {
+    if (!want.includes(out)) continue;
+    const h = await renderVariant(browser, fileUrl, outPrefix, v, out, w, pag);
+    done.push(`${out} ${h}px`);
+  }
   await browser.close();
-  console.log(`OK ${path.basename(outPrefix)} | desktop ${d}px | mobile ${m}px`);
+  console.log(`OK ${path.basename(outPrefix)} | ${done.join(' | ')}`);
 })().catch(e => { console.error(e); process.exit(1); });

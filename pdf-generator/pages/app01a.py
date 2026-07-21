@@ -98,7 +98,10 @@ def redbox(title, text):
             f'<div><h4>{E(title)}</h4><p>{text}</p></div></div>')
 
 def part(cls, items):
-    return f'<div class="part {cls}">' + '\n'.join(items) + '</div>'
+    # White style (option 2): no spanning tinted zone — transparent on the white page.
+    # Phase color is carried by the phase separator bands + each card's colored border/icon;
+    # cards keep their shadow so they read on white, and page breaks leave clean white space.
+    return '<div class="part" style="background:transparent;padding:0">' + '\n'.join(items) + '</div>'
 
 DOCS_URL="https://b2b.btl.gov.il/BTL.ILG.Payments/DocumentsInfo.aspx"
 PORTAL_URL="https://ps.btl.gov.il/#/login"
@@ -109,6 +112,14 @@ def card(frame, inner):
     return f'<div class="card sec {frame}">{inner}</div>'
 
 def b(t): return f'<strong>{E(t)}</strong>'
+
+# Next document in the flow — Google Drive share URL of "הגשת מערכת שעות" (mobile).
+NEXT_URL = "https://drive.google.com/file/d/1JtGkStCNt5bISPdPRIaZ2nXi7s7VaagH/view?usp=sharing"
+def navcta(prompt, label, url):
+    return ('<div class="navcta">'
+            f'<div class="navprompt">{E(prompt)}</div>'
+            f'<div class="bigbtn"><a href="{url}"><span>{E(label)}</span>{svg("chevL",19,"#fff")}</a></div>'
+            '</div>')
 
 # ---------- benefit chips ----------
 BCHIPS=[("דמי שיקום","wallet","38 92% 50%"),("שכר לימוד","cap","199 89% 48%"),
@@ -205,6 +216,8 @@ def build():
                 nextline="<b>אושר? זה הצעד הבא שלך:</b> כדי שנוכל לאשר את הזכאויות, עליך להגיש את מערכת השעות מיד עם קבלתה מהמוסד הלימודי.")
            + resultbox("no","כאשר התוכנית אינה עומדת בקריטריונים",
                 ["במקרה שבו עולים שיקולים שעשויים להוביל לדחיית התוכנית, עו\"ס השיקום ישוחח איתך על נימוקי הדחייה ותיבדקנה יחד אפשרויות נוספות שיכולות להתאים לך."]))
+    # NEW transition header: green circle, down-chevron — introduces the decision-received card.
+    P_dec.append(phase("green","chevD","קבלת ההחלטה","לאחר בחינת הבקשה"))
     P_dec.append(sec("mail","איך אדע אם הבקשה שלי אושרה?", inner, "amber"))
 
     # 01a ends after "איך אדע אם הבקשה שלי אושרה?" (the last card in P_dec).
@@ -212,7 +225,8 @@ def build():
     parts=[ part("part-intro", P_intro),
             part("part-step", P_step1),
             part("part-decision", P_dec) ]
-    body='\n'.join(parts)
+    # next-step navigation button → the schedule-submission document (01b)
+    body='\n'.join(parts) + '\n' + navcta("זכאותך אושרה?", "לצעד הבא: הגשת מערכת שעות", NEXT_URL)
     return f"""<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <title>הגשת בקשה לאישור לימודים — שיקום מקצועי לסטודנטים</title>
 <style>@import url("{FONTS_CSS}");
@@ -221,8 +235,8 @@ def build():
   <div class="hero">
     <div class="circle c1"></div><div class="circle c2"></div>
     <div class="hero-row">
-      <div class="hero-ico">{svg("clip",30,"#fff")}</div>
-      <div><h1>הגשת בקשה לאישור לימודים</h1><p class="sub">מהצעד הראשון ועד אישור הלימודים</p></div>
+      <div class="hero-ico">{svg("cap",30,"#fff")}</div>
+      <div><h1>שיקום מקצועי לסטודנטים בהשכלה גבוהה</h1><p class="sub">מדריך מקיף לסטודנטים עם נכות כללית או נפגעי עבודה שזכאותם לשיקום מקצועי אושרה — מהצעד הראשון ועד מיצוי מלוא הזכאויות והתמיכות לאורך תקופת הלימודים.</p></div>
     </div>
   </div>
   <div class="body">

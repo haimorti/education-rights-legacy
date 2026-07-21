@@ -23,6 +23,7 @@ IC = {
   "userc":'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/>',
   "users":'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   "ext":'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  "chevD":'<path d="m6 9 6 6 6-6"/>',
 }
 def svg(n,s,stroke="currentColor"): return f'<svg class="icon" width="{s}" height="{s}" viewBox="0 0 24 24" stroke="{stroke}">{IC[n]}</svg>'
 def E(t): return html.escape(t, quote=False)
@@ -32,6 +33,13 @@ PORTAL="https://ps.btl.gov.il/#/login"
 def p(t,cls="par"): return f'<p class="{cls}">{t}</p>'
 def b(t): return f'<strong>{t}</strong>'
 def pill(t): return f'<span class="pill">{t}</span>'
+
+def phase(variant, marker, title, subtitle):
+    # Transition separator (same style as the process doc): circle + side lines + title/subtitle.
+    mk = svg("chevD",24,"#fff") if marker=="chevD" else marker
+    return (f'<div class="phase {variant}"><div class="line"><span class="hr"></span>'
+            f'<span class="circ">{mk}</span><span class="hr"></span></div>'
+            f'<div class="ttl">{E(title)}</div><div class="st">{E(subtitle)}</div></div>')
 
 def sechead(icon,title):
     return f'<div class="sechead"><span class="si">{svg(icon,20,"var(--primary-d)")}</span><h3>{E(title)}</h3></div>'
@@ -108,7 +116,7 @@ def build():
         p("קבלת דמי השיקום מותנית בעמידה בשלושה תנאים עיקריים שנקבעו באגף השיקום.","lead"),
         cond("1","שיעור הקצבה לה הנך זכאי",
             p("דמי השיקום משלימים ל-100% את הקצבה המשולמת לך.")
-            + callout("amber","אתה זכאי לקצבת נכות מלאה ולכן לא ישולמו לך דמי שיקום.","info")),
+            + callout("amber","לכן, אם משולמת לך קצבה מלאה לא ישולמו לך דמי שיקום.","info")),
         cond("2","עומס לימודי",
             p("דמי השיקום נועדו לתמוך כלכלית במי שלומד בהיקף שעות שפוגע ביכולתו להשתכר. לכן תנאי סף לקבלת הזכאות הוא לימודים בהיקף של לפחות "+pill("16 שעות שבועיות")+".")
             + p("ההיקף הזה יכול להיקבע באחת משתי הדרכים:","lead")
@@ -128,6 +136,7 @@ def build():
         + checkbullets(["רשימת הקורסים שאליהם נרשמת באותו סמסטר","סך נקודות הזכות של הקורסים"]) + '</div>'))
 
     # ===== Section 3: amount calculation (white accordion card) =====
+    B.append(phase("green","chevD","איך נחשב את גובה דמי השיקום שלך","כך מתבצע החישוב"))
     B.append(acc("calc","חישוב גובה דמי השיקום",
         p("חישוב גובה דמי השיקום שונה בין נכה כללי לנפגע עבודה:","lead"),
         # --- נכה כללי ---
@@ -161,6 +170,7 @@ def build():
         callout("blue",b("העיקרון: ")+"דמי השיקום נועדו להשלים את הכנסתך עד לרמת קצבה של 100% ולא מעבר לכך. לכן, אם כבר הגעת לסכום הזה באמצעות עבודה או קצבאות אחרות – דמי השיקום יופחתו בהתאם.","info")))
 
     # ===== Section 4: payment schedule (white accordion card) =====
+    B.append(phase("green","chevD","תשלום דמי השיקום","מתי ואיך מקבלים אותו"))
     B.append(acc("wallet","מתי משולמים דמי השיקום?",
         p("אם אתה עומד בתנאי הזכאות לדמי שיקום, עובד השיקום יוודא שהתשלום יועבר אליך באופן אוטומטי.","lead"),
         f'<div class="cond"><div class="cond-h"><span class="sec-ico">{svg("calcheck",18)}</span><h4>אחת לחודש</h4></div>'

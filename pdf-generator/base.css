@@ -291,6 +291,12 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
   background:var(--primary);color:#fff;font-size:17px;font-weight:800;padding:16px 24px;border-radius:16px;
   box-shadow:0 6px 16px hsl(199 89% 48% / .28);}
 .bigbtn a .icon{flex:0 0 auto;}
+/* next-step navigation CTA (links to the next document in the flow) */
+.navcta{margin-top:12px;background:var(--primary-soft);border:1px solid var(--primary-bd);
+  border-radius:16px;padding:16px 16px 18px;}
+.navprompt{text-align:center;font-size:15.5px;font-weight:700;color:var(--primary-d);margin-bottom:8px;}
+.navsub{text-align:center;font-size:13px;color:var(--muted);line-height:1.55;margin:0 2px 12px;}
+.navcta .bigbtn{padding:0;}
 
 /* ===== phase divider ===== */
 .phase{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 0 6px;}
@@ -363,7 +369,7 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
   .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile,.notice,.eligbar,
-  .numline,.subbox,.softbox,.checktiles .ct{
+  .numline,.subbox,.softbox,.checktiles .ct,.navcta{
     break-inside:avoid;}
   .subcap{break-after:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
@@ -394,7 +400,7 @@ html[data-variant="mobile"] .twoup{grid-template-columns:1fr;}
 html[data-variant="mobile"] .statgrid{grid-template-columns:1fr;}
 html[data-variant="mobile"] .checktiles{grid-template-columns:1fr;}
 html[data-variant="mobile"] .bigbtn a{font-size:15px;padding:14px 18px;}
-html[data-variant="mobile"] .page{width:390px;padding-bottom:24px;}
+html[data-variant="mobile"] .page{width:320px;padding-bottom:24px;}
 html[data-variant="mobile"] .hero{padding:30px 22px 26px;}
 html[data-variant="mobile"] .hero h1{font-size:24px;}
 html[data-variant="mobile"] .hero .sub{font-size:14px;}

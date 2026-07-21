@@ -92,7 +92,10 @@ def redbox(title, text):
             f'<div><h4>{E(title)}</h4><p>{text}</p></div></div>')
 
 def part(cls, items):
-    return f'<div class="part {cls}">' + '\n'.join(items) + '</div>'
+    # White style (option 2): no spanning tinted zone — transparent on the white page.
+    # Phase color is carried by the phase separator bands + each card's colored border/icon;
+    # cards keep their shadow so they read on white, and page breaks leave clean white space.
+    return '<div class="part" style="background:transparent;padding:0">' + '\n'.join(items) + '</div>'
 
 DOCS_URL="https://b2b.btl.gov.il/BTL.ILG.Payments/DocumentsInfo.aspx"
 PORTAL_URL="https://ps.btl.gov.il/#/login"
@@ -107,6 +110,16 @@ def b(t): return f'<strong>{E(t)}</strong>'
 def important(text):
     return (f'<div class="important"><div class="ico">{svg("alert",19,"hsl(38 92% 42%)")}</div>'
             f'<div><h3>חשוב לזכור</h3><p>{text}</p></div></div>')
+
+# Benefits hub — Google Drive share URL of "מימוש זכאויות" (mobile).
+HUB_URL = "https://drive.google.com/file/d/1k9N60BZa_ep7qoEAxrH_NxGP-wlhusXc/view?usp=sharing"
+def navcta(prompt, label, url, sub=None):
+    subhtml = f'<div class="navsub">{sub}</div>' if sub else ''
+    return ('<div class="navcta">'
+            f'<div class="navprompt">{E(prompt)}</div>'
+            f'{subhtml}'
+            f'<div class="bigbtn"><a href="{url}"><span>{E(label)}</span>{svg("chevL",19,"#fff")}</a></div>'
+            '</div>')
 
 # ---------- benefit chips ----------
 BCHIPS=[("דמי שיקום","wallet","38 92% 50%"),("שכר לימוד","cap","199 89% 48%"),
@@ -156,7 +169,13 @@ def build():
     # 01b: single uniform neutral background (part-intro) for the whole body — reduces color
     # noise (phase markers keep their blue/green), and since part-intro has no break-before:page
     # (unlike part-step/fulfill) it also fixes the empty first page (content now starts on page 1).
-    body = part("part-intro", P_sched + P_ful) + '\n' + important("בסיום כל סמסטר עליך להגיש "+b("גיליון ציונים")+" ו"+b("מערכת שעות מעודכנת")+" לסמסטר הבא. המשך קבלת התמיכות מותנה בעמידה בדרישות הלימודים ובהצלחה במבחני הסמסטר הקודם.")
+    nav = navcta("קיבלת את מכתב \"אישור לימודים לסמסטר\"?",
+                 "הגיע הזמן לממש את הזכאויות שלך", HUB_URL,
+                 sub="המכתב מפרט את הזכאויות ש"+b("אושרו לך")+" עבור הסמסטר — כאן תוכל ללמוד על כל אחת מהן וכיצד לממש אותה.")
+    # order: content → "חשוב לזכור" → nav CTA last (forward-looking, leads to the benefits hub)
+    body = (part("part-intro", P_sched + P_ful) + '\n'
+            + important("בסיום כל סמסטר עליך להגיש "+b("גיליון ציונים")+" ו"+b("מערכת שעות מעודכנת")+" לסמסטר הבא. המשך קבלת התמיכות מותנה בעמידה בדרישות הלימודים ובהצלחה במבחני הסמסטר הקודם.")
+            + '\n' + nav)
     return f"""<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <title>הגשת מערכת שעות וקביעת הזכאויות — שיקום מקצועי לסטודנטים</title>
 <style>@import url("{FONTS_CSS}");
