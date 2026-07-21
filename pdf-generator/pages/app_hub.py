@@ -17,14 +17,14 @@ PORTAL = "https://ps.btl.gov.il/#/login"
 # Replace each with the Google Drive share URL of that benefit's PDF.
 # Default (TEST_URL) lets you verify that PDF links fire in Drive's mobile preview.
 TEST_URL = "https://www.btl.gov.il/"
-LINKS = {
-  "02-rehabilitation-allowance": TEST_URL,
-  "03-tuition":                  TEST_URL,
-  "04-rent-assistance":          TEST_URL,
-  "05-travel-expenses":          TEST_URL,
-  "06-study-equipment":          TEST_URL,
-  "07-tutoring":                 TEST_URL,
-  "08-accessibility":            TEST_URL,
+LINKS = {  # Google Drive share URLs (mobile)
+  "02-rehabilitation-allowance": "https://drive.google.com/file/d/1M-gFZYUQeS2I9JaYQVizpDBmgGb4XT5L/view?usp=sharing",
+  "03-tuition":                  "https://drive.google.com/file/d/1p-PYQ5yk1FECWlEwIwlzM5P2AXs1-PoP/view?usp=sharing",
+  "04-rent-assistance":          "https://drive.google.com/file/d/1SC75B_evOOsVV0FmODtuD_na_uMkIOol/view?usp=sharing",
+  "05-travel-expenses":          "https://drive.google.com/file/d/1PQ9ekhVVN6yvEcXqrB5Zd1vEda4NJ3Kf/view?usp=sharing",
+  "06-study-equipment":          "https://drive.google.com/file/d/19SA8EHLvn0gnpeO1E_5pAjXprDl9Q36Q/view?usp=sharing",
+  "07-tutoring":                 "https://drive.google.com/file/d/1Mld-U4nU2ZxIoregBGXkQM1h1szQbC8w/view?usp=sharing",
+  "08-accessibility":            "https://drive.google.com/file/d/1ghG6gR9-jsUMubbOM0QfzRyuXIAkV6mQ/view?usp=sharing",
 }
 
 IC = {

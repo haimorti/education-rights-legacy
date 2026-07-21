@@ -113,8 +113,8 @@ def card(frame, inner):
 
 def b(t): return f'<strong>{E(t)}</strong>'
 
-# Next document in the flow. TODO: replace with the Google Drive share URL of "2. הגשת מערכת שעות".
-NEXT_URL = "https://www.btl.gov.il/"
+# Next document in the flow — Google Drive share URL of "הגשת מערכת שעות" (mobile).
+NEXT_URL = "https://drive.google.com/file/d/1JtGkStCNt5bISPdPRIaZ2nXi7s7VaagH/view?usp=sharing"
 def navcta(prompt, label, url):
     return ('<div class="navcta">'
             f'<div class="navprompt">{E(prompt)}</div>'

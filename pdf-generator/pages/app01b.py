@@ -111,8 +111,8 @@ def important(text):
     return (f'<div class="important"><div class="ico">{svg("alert",19,"hsl(38 92% 42%)")}</div>'
             f'<div><h3>חשוב לזכור</h3><p>{text}</p></div></div>')
 
-# Benefits hub. TODO: replace with the Google Drive share URL of "מימוש זכאויות" (benefits-hub).
-HUB_URL = "https://www.btl.gov.il/"
+# Benefits hub — Google Drive share URL of "מימוש זכאויות" (mobile).
+HUB_URL = "https://drive.google.com/file/d/1k9N60BZa_ep7qoEAxrH_NxGP-wlhusXc/view?usp=sharing"
 def navcta(prompt, label, url, sub=None):
     subhtml = f'<div class="navsub">{sub}</div>' if sub else ''
     return ('<div class="navcta">'
