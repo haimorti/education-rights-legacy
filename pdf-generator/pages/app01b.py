@@ -111,6 +111,14 @@ def important(text):
     return (f'<div class="important"><div class="ico">{svg("alert",19,"hsl(38 92% 42%)")}</div>'
             f'<div><h3>חשוב לזכור</h3><p>{text}</p></div></div>')
 
+# Benefits hub. TODO: replace with the Google Drive share URL of "מימוש זכאויות" (benefits-hub).
+HUB_URL = "https://www.btl.gov.il/"
+def navcta(prompt, label, url):
+    return ('<div class="navcta">'
+            f'<div class="navprompt">{E(prompt)}</div>'
+            f'<div class="bigbtn"><a href="{url}"><span>{E(label)}</span>{svg("chevL",19,"#fff")}</a></div>'
+            '</div>')
+
 # ---------- benefit chips ----------
 BCHIPS=[("דמי שיקום","wallet","38 92% 50%"),("שכר לימוד","cap","199 89% 48%"),
  ("שכר דירה","home","160 84% 39%"),("הוצאות נסיעה","bus","201 90% 48%"),
@@ -159,7 +167,9 @@ def build():
     # 01b: single uniform neutral background (part-intro) for the whole body — reduces color
     # noise (phase markers keep their blue/green), and since part-intro has no break-before:page
     # (unlike part-step/fulfill) it also fixes the empty first page (content now starts on page 1).
-    body = part("part-intro", P_sched + P_ful) + '\n' + important("בסיום כל סמסטר עליך להגיש "+b("גיליון ציונים")+" ו"+b("מערכת שעות מעודכנת")+" לסמסטר הבא. המשך קבלת התמיכות מותנה בעמידה בדרישות הלימודים ובהצלחה במבחני הסמסטר הקודם.")
+    nav = navcta("קיבלת את מכתב \"אישור לימודים לסמסטר\"?", "הגיע הזמן לממש את הזכאויות שלך", HUB_URL)
+    body = (part("part-intro", P_sched + P_ful) + '\n' + nav + '\n'
+            + important("בסיום כל סמסטר עליך להגיש "+b("גיליון ציונים")+" ו"+b("מערכת שעות מעודכנת")+" לסמסטר הבא. המשך קבלת התמיכות מותנה בעמידה בדרישות הלימודים ובהצלחה במבחני הסמסטר הקודם."))
     return f"""<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <title>הגשת מערכת שעות וקביעת הזכאויות — שיקום מקצועי לסטודנטים</title>
 <style>@import url("{FONTS_CSS}");

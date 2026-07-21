@@ -74,7 +74,7 @@ async function renderVariant(browser, fileUrl, outPrefix, variant, widthPx, pagi
   const fileUrl = 'file://' + path.resolve(input);
   const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--disable-gpu'] });
   const d = await renderVariant(browser, fileUrl, outPrefix, 'desktop', 794, true);   // desktop -> A4 paginated (crisp)
-  const m = await renderVariant(browser, fileUrl, outPrefix, 'mobile', 350, false);   // mobile -> single long page (narrower page = larger uniform zoom on phones)
+  const m = await renderVariant(browser, fileUrl, outPrefix, 'mobile', 320, false);   // mobile -> single long page (narrower page = larger uniform zoom on phones)
   await browser.close();
   console.log(`OK ${path.basename(outPrefix)} | desktop ${d}px | mobile ${m}px`);
 })().catch(e => { console.error(e); process.exit(1); });

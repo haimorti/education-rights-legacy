@@ -113,6 +113,14 @@ def card(frame, inner):
 
 def b(t): return f'<strong>{E(t)}</strong>'
 
+# Next document in the flow. TODO: replace with the Google Drive share URL of "2. הגשת מערכת שעות".
+NEXT_URL = "https://www.btl.gov.il/"
+def navcta(prompt, label, url):
+    return ('<div class="navcta">'
+            f'<div class="navprompt">{E(prompt)}</div>'
+            f'<div class="bigbtn"><a href="{url}"><span>{E(label)}</span>{svg("chevL",19,"#fff")}</a></div>'
+            '</div>')
+
 # ---------- benefit chips ----------
 BCHIPS=[("דמי שיקום","wallet","38 92% 50%"),("שכר לימוד","cap","199 89% 48%"),
  ("שכר דירה","home","160 84% 39%"),("הוצאות נסיעה","bus","201 90% 48%"),
@@ -217,7 +225,8 @@ def build():
     parts=[ part("part-intro", P_intro),
             part("part-step", P_step1),
             part("part-decision", P_dec) ]
-    body='\n'.join(parts)
+    # next-step navigation button → the schedule-submission document (01b)
+    body='\n'.join(parts) + '\n' + navcta("זכאותך אושרה?", "לצעד הבא: הגשת מערכת שעות", NEXT_URL)
     return f"""<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <title>הגשת בקשה לאישור לימודים — שיקום מקצועי לסטודנטים</title>
 <style>@import url("{FONTS_CSS}");
