@@ -369,7 +369,7 @@ a{color:var(--primary-d);text-decoration:none;font-weight:600;}
   /* top-level section cards never split; the tinted part bg closes/reopens per page (box-decoration-break:clone) */
   .card,.checklist,.planbox,.numcard,.resultbox,.redbox,.cta,.summary,.important,.bigbtn,.bchip,.dlabel,.foot,
   .cond,.minicard,.callout,.scenario,.innerbox,.checkrow,.statcard,.exbox,.extile,.notice,.eligbar,
-  .numline,.subbox,.softbox,.checktiles .ct{
+  .numline,.subbox,.softbox,.checktiles .ct,.navcta{
     break-inside:avoid;}
   .subcap{break-after:avoid;}
   /* keep a phase divider glued to the card that follows it (no orphan header at page bottom) */
